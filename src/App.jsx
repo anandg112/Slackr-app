@@ -4,7 +4,7 @@ import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
 
 
-var data = {
+const data = {
   currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: [
     {
@@ -24,11 +24,18 @@ class App extends Component {
 
 constructor(props) {
   super(props);
-  this.state = {...data}
+  this.state = data
 }
   // in App.jsx
 componentDidMount() {
   console.log("componentDidMount <App />");
+  this.socket = new WebSocket("ws://localhost:3001/socketserver")
+  //console.log(this.socket);
+
+  this.socket.onopen = (event) => {
+
+};
+
   setTimeout(() => {
     console.log("Simulating incoming message");
     // Add a new message to the list of messages in the data store
@@ -40,6 +47,31 @@ componentDidMount() {
   }, 3000);
 }
 
+handleMsg = (e) => {
+  console.log('handleMsg', e.key, e.target.value);
+  if(e.key === 'Enter'){
+      let newMessage = {
+            id: 3,
+            username: this.state.currentUser.name,
+            content: e.target.value
+          }
+      const data = this.state;
+      this.state.messages.push(newMessage)
+      this.socket.send(JSON.stringify(newMessage));
+      //let newMessage = e.target.value;
+      this.setState(data: data);
+  }
+}
+
+handleUser = (e) => {
+  if(e.key === 'Enter'){
+      let newUser = e.target.value;
+      console.log(`newUser: ${newUser}`);
+      // console.log(this.state);
+      this.setState({currentUser: {name: newUser}})
+  }
+}
+
   render(){
     console.log("Rendering <App/>");
       return (
@@ -48,8 +80,8 @@ componentDidMount() {
           <a href="/" className="navbar-brand">Chatty App</a>
         </nav>
         <MessageList messages={this.state.messages}  />
-        <ChatBar username={this.state.currentUser.name}
-                 message={this.state.currentUser.messages}
+        <ChatBar username={this.handleUser}
+                 message={this.handleMsg}
         />
         </div>
     );
