@@ -17,13 +17,12 @@ constructor(props) {
 }
   // in App.jsx
 componentDidMount() {
-  // console.log("componentDidMount <App />");
   this.socket = new WebSocket("ws://0.0.0.0:3001/socketserver")
-  //console.log(this.socket);\
   this.socket.onmessage = (event) => {
-    console.log('message received:', event);
+    let message = JSON.parse(event.data);
+      this.setState({messages: this.state.messages.concat(message)})
+    //console.log('message received:', event);
     //const message = JSON.parse(event.data);
-    //this.receiveMessage(JSON.parse(event));
   }
   setTimeout(() => {
     // console.log("Simulating incoming message");
@@ -45,7 +44,7 @@ handleMsg = (e) => {
             content: e.target.value
           }
       const data = this.state;
-      this.state.messages.push(newMessage)
+      this.state.messages.concat(newMessage)
       this.socket.send(JSON.stringify(newMessage));
       this.setState(data: data);
   }
