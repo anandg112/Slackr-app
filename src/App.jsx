@@ -5,19 +5,8 @@ import MessageList from './MessageList.jsx';
 
 
 const data = {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-  messages: [
-    {
-      id:1,
-      username: "Bob",
-      content: "Has anyone seen my marbles?"
-    },
-    {
-      id:2,
-      username: "Anonymous",
-      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-    }
-  ]
+  currentUser: {name: "Anand"}, // optional. if currentUser is not defined, it means the user is Anonymous
+  messages: []
 };
 
 class App extends Component {
@@ -28,16 +17,16 @@ constructor(props) {
 }
   // in App.jsx
 componentDidMount() {
-  console.log("componentDidMount <App />");
-  this.socket = new WebSocket("ws://localhost:3001/socketserver")
-  //console.log(this.socket);
-
-  this.socket.onopen = (event) => {
-
-};
-
+  // console.log("componentDidMount <App />");
+  this.socket = new WebSocket("ws://0.0.0.0:3001/socketserver")
+  //console.log(this.socket);\
+  this.socket.onmessage = (event) => {
+    console.log('message received:', event);
+    //const message = JSON.parse(event.data);
+    //this.receiveMessage(JSON.parse(event));
+  }
   setTimeout(() => {
-    console.log("Simulating incoming message");
+    // console.log("Simulating incoming message");
     // Add a new message to the list of messages in the data store
     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
     const messages = this.state.messages.concat(newMessage)
@@ -48,7 +37,7 @@ componentDidMount() {
 }
 
 handleMsg = (e) => {
-  console.log('handleMsg', e.key, e.target.value);
+  // console.log('handleMsg', e.key, e.target.value);
   if(e.key === 'Enter'){
       let newMessage = {
             id: 3,
@@ -58,7 +47,6 @@ handleMsg = (e) => {
       const data = this.state;
       this.state.messages.push(newMessage)
       this.socket.send(JSON.stringify(newMessage));
-      //let newMessage = e.target.value;
       this.setState(data: data);
   }
 }
