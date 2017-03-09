@@ -1,23 +1,15 @@
 import React, {Component} from 'react';
 
 class ChatBar extends Component {
-  render(){
-    return (
-      <div>
-        <footer className="chatbar">
-          <input
-            className="chatbar-username"
-            placeholder="Your Name (Optional)"
-            onKeyUp = {this.props.currentUser}/>
-          <input
-            className="chatbar-message"
-            placeholder="Type a message and hit ENTER"
-            onKeyUp = {this.props.message}
-            />
-        </footer>
-      </div>
-    )
-  }
+	render() {
+		console.log("Rendering <ChatBar/>");
+		return (
+			<footer className='chatbar'>
+				<input onKeyUp={this.props.handleUser} className='chatbar-username' placeholder='Your Name (Optional)' defaultValue={this.props.username} />
+				<input onKeyUp={this.props.handleMsg} className='chatbar-message' placeholder='Type a message and hit ENTER' />
+			</footer>
+		);
+	}
 }
 
-export default ChatBar
+export default ChatBar;
