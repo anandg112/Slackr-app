@@ -13,13 +13,18 @@ class Message extends Component {
 				);
 				break;
 
-			default:
+			case 'incomingMessage':
 				return (
 					<div className="message">
 						<span className="message-username">{this.props.user.username}</span>
 						<span className="message-content">{this.props.content}</span>
 					</div>
 				);
+        break;
+
+        default:
+         console.log('Unknown message type: ', message.type);
+        break;
 		}
 	}
 }

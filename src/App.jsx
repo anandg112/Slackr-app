@@ -18,7 +18,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		this.socket = new WebSocket("ws://localhost:3001");
+		this.socket = new WebSocket("ws://0.0.0.0:3001");
 
 		this.socket.onopen = (e) => {
 			console.log('Connected to server');
@@ -52,7 +52,7 @@ class App extends Component {
 		if (e.key === 'Enter') {
 			let newNotification = {
 				type: 'postNotification',
-				content: `${this.state.currentUser.name} has changed their name to ${e.target.value}.`
+				content: `${this.state.currentUser.name} changed their name to ${e.target.value}.`
 			}
 
 			this.setState({currentUser: {name: e.target.value}});
