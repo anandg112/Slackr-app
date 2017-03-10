@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
@@ -18,6 +17,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+    //console.log("componentDidMount <App />");
 		this.socket = new WebSocket("ws://0.0.0.0:3001");
 
 		this.socket.onopen = (e) => {

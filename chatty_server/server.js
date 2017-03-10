@@ -14,6 +14,8 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+
+//broadcast message to each client
 wss.broadcast = function(message) {
 	wss.clients.forEach((client) => client.send(message));
 }
@@ -31,7 +33,6 @@ wss.on('connection', (ws) => {
 		switch(message.type) {
 
 			case 'postMessage':
-				//console.log(`User ${message.username} said ${message.content}`)
 				wss.broadcast(JSON.stringify({
 					type: 'incomingMessage',
 					id: uuid.v1(),
